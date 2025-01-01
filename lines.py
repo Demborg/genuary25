@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 
 cam = cv2.VideoCapture(0)
+result = cv2.VideoWriter('video.mp4',  
+                         cv2.VideoWriter_fourcc(*'MP4V'), 
+                         10, (1280, 960)) 
 
 while True:
     check, frame = cam.read()
@@ -24,4 +27,11 @@ while True:
     res = cv2.resize(res, (1280, 960), interpolation=cv2.INTER_NEAREST)
     cv2.imshow("res", np.astype(res, np.uint8))
 
-    cv2.waitKey(1)
+    if cv2.waitKey(1) & 0xFF == ord('s'): 
+        break
+
+    result.write(np.astype(res, np.uint8))
+
+
+cam.release()
+result.release
