@@ -37,6 +37,9 @@
         const mid = size / 2
         const strokeWidth = rand(1, Math.max(1, bulbRadius / layers / 5))
 
+        const stemWidth = rand(10, 30)
+        const stemHeight = rand(5, 5)
+
         midTop = mid + rand(-50, 50)
 
         const hue = rand(0, 360)
@@ -67,7 +70,15 @@
             path.setAttribute("stroke-width", strokeWidth)
             path.setAttribute("fill", "white")
 
+            const stem = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+            stem.setAttribute("fill", `hsl(${hue}, 76%, ${map(s, 20, 100)}%)`)
+            stem.setAttribute("cx", mid)
+            stem.setAttribute("cy", b - stemHeight + 2)
+            stem.setAttribute("rx", stemWidth * s)
+            stem.setAttribute("ry", stemHeight)
+            svg.appendChild(stem)
             svg.appendChild(path)
+
         }
     }
 
@@ -82,7 +93,7 @@
 
 </script>
 
-<body>
+<body onclick="run()">
     <svg height="400" width="400" id="svg"></svg>
     <svg height="400" width="400" id="svg"></svg>
     <svg height="400" width="400" id="svg"></svg>
