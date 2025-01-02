@@ -24,6 +24,8 @@
 
     function onion(svg) {
         const topRadius = rand(10, 50)
+        const topSmoothL = rand(0, 50)
+        const topSmoothR = rand(0, 50)
         const bulbRadius = rand(topRadius * 2, size / 2 - 25)
         const top = 50
         const bottom = 300
@@ -53,10 +55,10 @@
 
             data = `
                 M ${midTop - s * topRadius} ${top}
-                C ${midTop - s * topRadius} ${top + smooth} ${mid - s * bulbRadius} ${bulbHeight - fixed} ${mid - s * bulbRadius} ${bulbHeight}
+                C ${midTop - s * topRadius - topSmoothL} ${top + smooth} ${mid - s * bulbRadius} ${bulbHeight - fixed} ${mid - s * bulbRadius} ${bulbHeight}
                 S ${mid - s * smooth} ${b} ${mid} ${b}
                 S ${mid + s * bulbRadius} ${bulbHeight + fixed} ${mid + s * bulbRadius} ${bulbHeight}
-                S ${midTop + s * topRadius} ${top + smooth} ${midTop + s * topRadius} ${top}
+                S ${midTop + s * topRadius + topSmoothR} ${top + smooth} ${midTop + s * topRadius} ${top}
             `
 
             path.setAttribute("d", data)
