@@ -15,7 +15,7 @@
     }
 
     function map(s, a, b) {
-        return s * a + (1-s) * b
+        return s * a + (1 - s) * b
     }
 
     const size = 400
@@ -33,8 +33,9 @@
         const bulbHeight = rand2(mean(top, bottom - lift), bottom - lift)
         const smooth = rand(50, 50)
 
-        const layers = rand(bulbRadius / 5, bulbRadius / 20)
+        const layers = rand(bulbRadius / 10, bulbRadius / 20)
         const mid = size / 2
+        const strokeWidth = rand(1, Math.max(1, bulbRadius / layers / 5))
 
         midTop = mid + rand(-50, 50)
 
@@ -45,9 +46,9 @@
         rect.setAttribute("width", "100%")
         rect.setAttribute("fill", bg)
         svg.appendChild(rect)
-    
-        for (let s = 1; s > 0.01; s -= 1/layers) {
-            
+
+        for (let s = 1; s > 0.01; s -= 1 / layers) {
+
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
             b = bottom - lift * (1 - s)
@@ -63,6 +64,7 @@
 
             path.setAttribute("d", data)
             path.setAttribute("stroke", `hsl(${hue}, 76%, ${map(s, 20, 100)}%)`)
+            path.setAttribute("stroke-width", strokeWidth)
             path.setAttribute("fill", "white")
 
             svg.appendChild(path)
@@ -71,7 +73,7 @@
 
     function run() {
         svgs = document.getElementsByTagName("svg")
-        for (let i = 0; i < svgs.length; i++){
+        for (let i = 0; i < svgs.length; i++) {
             onion(svgs.item(i))
         }
     }
