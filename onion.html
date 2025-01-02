@@ -23,15 +23,15 @@
 
 
     function onion(svg) {
-        const topRadius = rand(10, 50)
+        const topRadius = rand(20, 50)
         const topSmoothL = rand(0, 50)
         const topSmoothR = rand(0, 50)
         const bulbRadius = rand(topRadius * 2, size / 2 - 25)
         const top = 50
         const bottom = 300
-        const bulbHeight = rand2(mean(top, bottom), bottom)
+        const lift = rand(10, 30)
+        const bulbHeight = rand2(mean(top, bottom - lift), bottom - lift)
         const smooth = rand(50, 50)
-        const lift = rand(0, 20)
 
         const layers = rand(bulbRadius / 5, bulbRadius / 20)
         const mid = size / 2
@@ -50,7 +50,7 @@
             
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-            b = bottom - lift * (1- s)
+            b = bottom - lift * (1 - s)
             fixed = Math.min(Math.max(0, b - bulbHeight), smooth)
 
             data = `
