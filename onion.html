@@ -11,18 +11,21 @@
         const bulbHeight = 200
         const bottom = 300
         const smooth = 75
+        const lift = 20
 
         const layers = 10
         const mid = size / 2
 
     
-        for (let offset = bulbRadius; offset > 0; offset -= bulbRadius / layers) {
+        for (let s = 1; s > 0.01; s -= 1/layers) {
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            s = offset / bulbRadius 
+
+            b = bottom - lift * (1- s)
+
             data = `
                 M ${mid - s * topRadius} ${top}
                 C ${mid - s * topRadius} ${top + smooth} ${mid - s * bulbRadius} ${bulbHeight - smooth} ${mid - s * bulbRadius} ${bulbHeight}
-                S ${mid - s * smooth} ${bottom} ${mid} ${bottom}
+                S ${mid - s * smooth} ${b} ${mid} ${b}
                 S ${mid + s * bulbRadius} ${bulbHeight + smooth} ${mid + s * bulbRadius} ${bulbHeight}
                 S ${mid + s * topRadius} ${top + smooth} ${mid + s * topRadius} ${top}
             `
