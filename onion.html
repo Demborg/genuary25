@@ -14,13 +14,17 @@
         return mean(rand(min, max), rand(min, max))
     }
 
+    function map(s, a, b) {
+        return s * a + (1-s) * b
+    }
+
     const size = 400
 
 
 
     function onion(svg) {
-        const topRadius = rand(0, 100)
-        const bulbRadius = rand(topRadius, size / 2 - 25)
+        const topRadius = rand(0, 50)
+        const bulbRadius = rand(topRadius * 2, size / 2 - 25)
         const top = 50
         const bottom = 300
         const bulbHeight = rand2(mean(top, bottom), bottom)
@@ -30,8 +34,16 @@
         const layers = bulbRadius / 10
         const mid = size / 2
 
+        const hue = rand(0, 360)
+        const bg = `hsl(${180 - hue}, 100%, 95%)`
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute("height", "100%")
+        rect.setAttribute("width", "100%")
+        rect.setAttribute("fill", bg)
+        svg.appendChild(rect)
     
         for (let s = 1; s > 0.01; s -= 1/layers) {
+            
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
             b = bottom - lift * (1- s)
@@ -45,8 +57,8 @@
             `
 
             path.setAttribute("d", data)
-            path.setAttribute("stroke", "black")
-            path.setAttribute("fill", "transparent")
+            path.setAttribute("stroke", `hsl(${hue}, 76%, ${map(s, 20, 100)}%)`)
+            path.setAttribute("fill", "white")
 
             svg.appendChild(path)
         }
