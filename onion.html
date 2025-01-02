@@ -2,18 +2,32 @@
 
 <script>
 
-    const size = 400
-    function onion() {
-        svg = document.getElementById("svg")
-        const topRadius = 25
-        const bulbRadius = 150
-        const top = 50
-        const bulbHeight = 200
-        const bottom = 300
-        const smooth = 75
-        const lift = 20
+    function rand(min, max) {
+        return Math.random() * (max - min) + min
+    }
 
-        const layers = 10
+    function mean(a, b) {
+        return 0.5 * (a + b)
+    }
+
+    function rand2(min, max) {
+        return mean(rand(min, max), rand(min, max))
+    }
+
+    const size = 400
+
+
+
+    function onion(svg) {
+        const topRadius = rand(0, 100)
+        const bulbRadius = rand(topRadius, size / 2 - 25)
+        const top = 50
+        const bottom = 300
+        const bulbHeight = rand2(mean(top, bottom), bottom)
+        const smooth = rand(50, 50)
+        const lift = rand(0, 20)
+
+        const layers = bulbRadius / 10
         const mid = size / 2
 
     
@@ -36,16 +50,22 @@
 
             svg.appendChild(path)
         }
-
-
-
-
     }
-    window.onload = onion
+
+    function run() {
+        svgs = document.getElementsByTagName("svg")
+        for (let i = 0; i < svgs.length; i++){
+            onion(svgs.item(i))
+        }
+    }
+
+    window.onload = run
 
 </script>
 
 <body>
-    <svg height="400" width="400" id="svg">
-    </svg>
+    <svg height="400" width="400" id="svg"></svg>
+    <svg height="400" width="400" id="svg"></svg>
+    <svg height="400" width="400" id="svg"></svg>
+    <svg height="400" width="400" id="svg"></svg>
 </body>
