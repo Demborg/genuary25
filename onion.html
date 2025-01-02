@@ -37,7 +37,7 @@
         midTop = mid + rand(-50, 50)
 
         const hue = rand(0, 360)
-        const bg = `hsl(${180 - hue}, 100%, 95%)`
+        const bg = `hsl(${(hue + 180) % 360}, 100%, 95%)`
         const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         rect.setAttribute("height", "100%")
         rect.setAttribute("width", "100%")
