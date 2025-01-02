@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<script>
+
+    const size = 400
+    function onion() {
+        svg = document.getElementById("svg")
+        const topRadius = 25
+        const bulbRadius = 150
+        const top = 50
+        const bulbHeight = 200
+        const bottom = 300
+        const smooth = 75
+
+        const layers = 10
+        const mid = size / 2
+
+    
+        for (let offset = bulbRadius; offset > 0; offset -= bulbRadius / layers) {
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            s = offset / bulbRadius 
+            data = `
+                M ${mid - s * topRadius} ${top}
+                C ${mid - s * topRadius} ${top + smooth} ${mid - s * bulbRadius} ${bulbHeight - smooth} ${mid - s * bulbRadius} ${bulbHeight}
+                S ${mid - s * smooth} ${bottom} ${mid} ${bottom}
+                S ${mid + s * bulbRadius} ${bulbHeight + smooth} ${mid + s * bulbRadius} ${bulbHeight}
+                S ${mid + s * topRadius} ${top + smooth} ${mid + s * topRadius} ${top}
+            `
+
+            path.setAttribute("d", data)
+            path.setAttribute("stroke", "black")
+            path.setAttribute("fill", "transparent")
+
+            svg.appendChild(path)
+        }
+
+
+
+
+    }
+    window.onload = onion
+
+</script>
+
+<body>
+    <svg height="400" width="400" id="svg">
+    </svg>
+</body>
