@@ -13,9 +13,10 @@
             return [X, Y]
         }
     }
-
     function run() {
         const ctx = document.getElementById("c").getContext("2d")
+        ctx.fillStyle = `#dedede`
+        ctx.fillRect(0, 0, 400, 400)
         const a = randomAffine()
         const b = randomAffine()
         ps = []
