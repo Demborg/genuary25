@@ -19,26 +19,23 @@
         const a = randomAffine()
         const b = randomAffine()
         ps = []
-        var minX = 10000
-        var minY = 10000
-        var maxX = -10000
-        var maxY = -10000
-        for(var i = 0; i < 100000; i++) {
+        bounds = [10000, -10000, 10000, -10000]
+        for(var i = 0; i < 10000; i++) {
             var p = [0, 0, 0, 0, 0]
             for(var j = 0; j < 10; j++) {
                 p = Math.random() > 0.5 ? [...a(p[0], p[1]), p[2] + 1, p[3], p[4]] : [...b(p[0], p[1]), p[2], p[3] + 1, p[4]] 
             }
             ps.push(p)
-            if (p[0] > maxX) maxX = p[0]
-            if (p[0] < minX) minX = p[0]
-            if (p[1] > maxY) maxY = p[1]
-            if (p[1] < minY) minY = p[1]
+            if (p[0] < bounds[0]) bounds[0] = p[0]
+            if (p[0] > bounds[1]) bounds[1] = p[0]
+            if (p[1] < bounds[2]) bounds[2] = p[1]
+            if (p[1] > bounds[3]) bounds[3] = p[1]
         }
-        console.log(minX, minY, maxX, maxY)
+        console.log(bounds)
         ps.forEach(p => {
             const cs = Math.max(p[2], p[3], p[4]) / 255
             ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 1)`
-            ctx.fillRect(400 * (p[0] - minX) / (maxX - minX), 400 * (p[1] - minY) / (maxY - minY), 1, 1)
+            ctx.fillRect(400 * (p[0] - bounds[0]) / (bounds[1] - bounds[0]), 400 * (p[1] - bounds[2]) / (bounds[3] - bounds[2]), 2, 2)
         });
     }
     window.onload = run
