@@ -32,13 +32,13 @@
         }
         ps.forEach(p => {
             const cs = Math.max(p[2], p[3], p[4]) / 255
-            ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 0.1)`
+            ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 0.2)`
             ctx.fillRect(400 * (p[0] + 2) / 4, 400 * (p[1] + 2) / 4, 2, 2)
         });
         if(Math.sin(t) < -0.9999) fs[0] = randomAffine()
         if(Math.sin(t + Math.PI * 2/3) < -0.9999) fs[1] = randomAffine()
         if(Math.sin(t + Math.PI * 4/3) < -0.9999) fs[2] = randomAffine()
-        t += 0.005
+        t += 0.01
         requestAnimationFrame(run)
     }
     window.onload = run
