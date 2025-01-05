@@ -12,6 +12,6 @@ On the second day of Genuary we celebrate the most layered vegetable of them all
 
 ## Day 3 - 42 lines of code
 An animated iterated function system written in 42 lines of javascript
-Try it out [here](https://demborg.se/genuary25/onion)
+Try it out [here](https://demborg.se/genuary25/answer)
 
 ![](3.png)
