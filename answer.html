@@ -12,29 +12,34 @@
             return [X, Y]
         }
     }
+    fs = [randomAffine(), randomAffine(), randomAffine()]
+    pr = [0.5, 1]
+    dir = -1
     function run() {
         const ctx = document.getElementById("c").getContext("2d")
-        ctx.fillStyle = `#dedede`
+        ctx.fillStyle = `rgba(50, 50, 50, 0.9)`
         ctx.fillRect(0, 0, 400, 400)
-        fs = [randomAffine(), randomAffine()]
         ps = []
-        bounds = [10000, -10000, 10000, -10000]
-        for(var i = 0; i < 100000; i++) {
+        for(var i = 0; i < 10000; i++) {
             var p = [0, 0, 0, 0, 0]
             for(var j = 0; j < 17; j++) {
-                p = Math.random() > 0.5 ? [...fs[0]([p[0], p[1]]), p[2] + 1, p[3], p[4]] : [...fs[1]([p[0], p[1]]), p[2], p[3] + 1, p[4]] 
+                const r = Math.random()
+                if (r < pr[0]) p = [...fs[0]([p[0], p[1]]), p[2] + 1, p[3], p[4]] 
+                else if (r < pr[1]) p = [...fs[1]([p[0], p[1]]), p[2], p[3] + 1, p[4]]
+                else p = [...fs[2]([p[0], p[1]]), p[2], p[3], p[4] + 1]
             }
             ps.push(p)
-            if (p[0] < bounds[0]) bounds[0] = p[0]
-            if (p[0] > bounds[1]) bounds[1] = p[0]
-            if (p[1] < bounds[2]) bounds[2] = p[1]
-            if (p[1] > bounds[3]) bounds[3] = p[1]
         }
         ps.forEach(p => {
             const cs = Math.max(p[2], p[3], p[4]) / 255
             ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 0.5)`
-            ctx.fillRect(400 * (p[0] - bounds[0]) / (bounds[1] - bounds[0]), 400 * (p[1] - bounds[2]) / (bounds[3] - bounds[2]), 2, 2)
+            ctx.fillRect(400 * (p[0] + 2) / 4, 400 * (p[1] + 2) / 4, 2, 2)
         });
+        pr[0] -= dir * 0.005
+        pr[1] -= dir * 0.005
+        if (pr[0] < 0) {fs[0] = randomAffine(); dir *= -1}
+        if (pr[1] > 1) {fs[2] = randomAffine(); dir *= -1}
+        requestAnimationFrame(run)
     }
     window.onload = run
 </script>
