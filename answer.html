@@ -25,7 +25,7 @@
     function run() {
         const ctx = document.getElementById("c").getContext("2d")
         ctx.fillStyle = `rgba(50, 50, 50, 0.5)`
-        ctx.fillRect(0, 0, 400, 400)
+        ctx.fillRect(0, 0, 1000, 1000)
         
         ps = []
         for(var i = 0; i < 10000; i++) {
@@ -41,7 +41,7 @@
         ps.forEach(p => {
             const cs = Math.max(p[2], p[3], p[4]) / 255
             ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 0.2)`
-            ctx.fillRect(400 * (p[0] + 2) / 4, 400 * (p[1] + 2) / 4, 2, 2)
+            ctx.fillRect(1000 * (p[0] + 2) / 4, 1000 * (p[1] + 2) / 4, 2, 2)
         });
         if(Math.sin(t) < -0.9999) fs[0] = randomAffine()
         if(Math.sin(t + Math.PI * 2/3) < -0.9999) fs[1] = randomAffine()
@@ -52,5 +52,5 @@
     window.onload = run
 </script>
 <body onclick="run()">
-    <canvas id="c" height="400", width="400"></canvas>
+    <canvas id="c" height="1000", width="1000"></canvas>
 </body>
