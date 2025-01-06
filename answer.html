@@ -12,40 +12,39 @@
         const theta = Math.random() * 2 * Math.PI
         const dx = (Math.random() * 2 - 1)
         const f = Math.random() * 0.5 +0.4
-        const c = Math.cos
-        const s = Math.sin
         return (p) => {
-            const X = c(theta) * f * p[0] - s(theta) * f * p[1] + dx
-            const Y = s(theta) * f * p[0] + c(theta) * f * p[1]
+            const X = Math.cos(theta) * f * p[0] - Math.sin(theta) * f * p[1] + dx
+            const Y = Math.sin(theta) * f * p[0] + Math.cos(theta) * f * p[1]
             return [X, Y]
         }
     }
+    const lerp = (p1, p2, t) => p1.map((a, i) => a * t + (1 -t) * p2[i])
     fs = [randomAffine(), randomAffine(), randomAffine()]
     t = 0
+    bounds = [[-1, 1], [-1, 1]]
     function run() {
+        tb = [[100, -100], [100, -100]]
         const ctx = document.getElementById("c").getContext("2d")
         ctx.fillStyle = `rgba(50, 50, 50, 0.5)`
         ctx.fillRect(0, 0, 1000, 1000)
-        
         ps = []
         for(var i = 0; i < 10000; i++) {
             var p = [0, 0, 0, 0, 0]
-            for(var j = 0; j < 17; j++) {
-                const r = Math.random()
-                if (r < (Math.sin(t) + 1) / 3) p = [...fs[0]([p[0], p[1]]), p[2] + 1, p[3], p[4]] 
-                else if (r < (Math.sin(t) + Math.sin(t + Math.PI * 2/3) + 2) / 3) p = [...fs[1]([p[0], p[1]]), p[2], p[3] + 1, p[4]]
-                else p = [...fs[2]([p[0], p[1]]), p[2], p[3], p[4] + 1]
+            for(var j = 0; j < 14; j++) {
+                p = lerp([...fs[0]([p[0], p[1]]), p[2] + 1, p[3], p[4]], p, (Math.sin(t) + 1) / 3)
+                if (0.5 < Math.random()) p = lerp([...fs[1]([p[0], p[1]]), p[2], p[3] + 1, p[4]], p, (Math.sin(t + Math.PI * 2/3) + 1) / 3)
+                else p = lerp([...fs[2]([p[0], p[1]]), p[2], p[3], p[4] + 1], p, (Math.sin(t + Math.PI * 4/3) + 1) / 3)
             }
+            tb = tb.map((b, i) => [Math.min(p[i], b[0]), Math.max(p[i], b[1])])
             ps.push(p)
         }
+        bounds = bounds.map((b, i) => lerp(b, tb[i], 0.9))
         ps.forEach(p => {
             const cs = Math.max(p[2], p[3], p[4]) / 255
-            ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 0.2)`
-            ctx.fillRect(1000 * (p[0] + 2) / 4, 1000 * (p[1] + 2) / 4, 2, 2)
+            ctx.fillStyle = `rgba(${p[2]/cs}, ${p[3]/cs}, ${p[4]/cs}, 1)`
+            ctx.fillRect(100 + 800 * (p[0] - bounds[0][0]) / (bounds[0][1] - bounds[0][0]), 100 + 800 * (p[1] - bounds[1][0]) / (bounds[1][1] - bounds[1][0]), 2, 2)
         });
-        if(Math.sin(t) < -0.9999) fs[0] = randomAffine()
-        if(Math.sin(t + Math.PI * 2/3) < -0.9999) fs[1] = randomAffine()
-        if(Math.sin(t + Math.PI * 4/3) < -0.9999) fs[2] = randomAffine()
+        fs = fs.map((f, i) => Math.sin(t + Math.PI * i* 2/3) < -0.9999 ? randomAffine() : f) 
         t += 0.01
         requestAnimationFrame(run)
     }
